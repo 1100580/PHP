@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <script type="text/javascript" src="ajax.js"></script>
+		<script type="text/javascript" src="tooltip.js"></script>
+    </head>
+    <body onload="mostPopularTags(document.getElementById('qtTagsTextField').value);initToolTips();">
+	
+		<div id="tooltip" style="display: none;"></div>
+	
+		<div id="left_div">
+            <select id="popTags" multiple="multiple" size="5">
+
+            </select>
+            <br>
+            <input name="Quantidade tags" id="qtTagsTextField" type="text" value="5" size="25"/>
+            <br>
+            <input id="submitQtTags" type="button" value="Mais tags" style="width: 150px" onclick="mostPopularTags(document.getElementById('qtTagsTextField').value)"/>        </div>
+		</div>
+		<div id="right_div">
+			<table id="tabelaTracks" border ='1'>
+			</table>
+			<input name="topTracks" id="qtTopTracks" type="text" value="5" size="25"/>
+			</br>
+			<input id="submitTopTracks" type="button" value="Top Tracks" style="width: 150px" onclick="getTopTracks(document.getElementById('qtTopTracks').value)"/>        </div>
+		</div>
+	</body>
+</html>

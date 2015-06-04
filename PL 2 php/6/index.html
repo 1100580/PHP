@@ -1,0 +1,108 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html>
+  <head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset="ISO-8859-1">
+    <script type="text/javascript" >
+       
+    var xmlHttpObj=null;
+    var isPostBack=false;
+    
+function CreateXmlHttpRequestObject( )
+    { 
+        if (window.XMLHttpRequest)
+        {
+        xmlHttpObj=new XMLHttpRequest()
+         
+        }
+        else if (window.ActiveXObject)
+        {
+        xmlHttpObj=new ActiveXObject("Microsoft.XMLHTTP")
+        }
+        return xmlHttpObj;
+    }
+    
+ function MakeXMLHTTPCall()
+    {     
+		var query= document.getElementById("concelhos").value;
+        xmlHttpObj = CreateXmlHttpRequestObject();
+       
+	   if(xmlHttpObj){
+				xmlHttpObj.open("GET","http://phpdev.dei.isep.ipp.pt/i100580/public_html/freguesias.php?concelho=" + query, true);
+				xmlHttpObj.onreadystatechange = stateHandler;
+				xmlHttpObj.send(null);
+		}
+	// efectuar pedido Ajax ( open, registar eventHandler, send , etc) 
+     }
+        
+function stateHandler()
+      { 
+        if ( xmlHttpObj.readyState == 4 && xmlHttpObj.status == 200)
+        {       
+		alert(ok);
+			var docXML = xmlHttpObj.responseXML;
+			var str="<table border=1>"
+			var elementos = docXML.getElementsByTagName("Freguesia");
+			nodeList = new Array(elementos.lenght);
+			for(i = 0; i < elementos.lenght; i++){
+				var elem = elementos[i];
+				nodeList[i] = elem.childNodes[0].nodeValue;
+			}
+			preencheSelectFreguesias(nodeList);
+        }
+      }           
+       
+function preencheSelectFreguesias(nodeList)
+        {
+             var selectFreguesias=document.getElementById("freguesias");
+             while(selectFreguesias.firstChild)
+				selectFreguesias.removeFirstChild();
+             
+			for(var i = 0; i < nodeList.lenght; i++){
+				option = document.createElement("option");
+				txt = document.createTextNode(nodeList[i]);
+				option.appendChild(txt);
+				selectFreguesias.appendChild(option);
+			}
+              
+        }
+    </script>
+    <meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+  </head>
+  <body onload="MakeXMLHTTPCall()">
+	<div style="text-align:center; color:blue;" >
+	<img src="topo_index.jpg" style="width:90%"/><p/>
+	<img src="javascript.jpg" />
+	<img src="php.png" />
+	<h3>DEI - ISEP</h3>
+	<h4>ARQUITECTURA de SISTEMAS </h4>
+	<br/>
+	</div>
+
+      <h3>
+          Exemplo de AJAX / JavaScript / DOM       </h3>
+      
+      <table>
+          <tr>
+              <th>Concelhos</th>
+              <th>Freguesias</th>
+          </tr>
+          <tr>
+              <td>
+                  <select name="concelhos" id ="concelhos"  onchange="MakeXMLHTTPCall()">
+                    <option>Porto</option>
+                    <option>Vila Nova de Gaia</option>
+                   </select>
+              </td>
+              <td>
+                <select name="freguesias" id ="freguesias" >
+                </select>
+              </td>
+          </tr>
+      </table>
+ 
+
+<div  id="divResults" >
+    
+</div>
+</body>
+</html>
